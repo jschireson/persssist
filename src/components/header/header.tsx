@@ -1,7 +1,7 @@
 import { Button, Upload, message, Row, Col, Modal, Divider, Typography } from 'antd';
 import { NextPage } from 'next';
-import { useState } from 'react';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { EditOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { IFile } from '../../interfaces/ifile.interface';
@@ -19,10 +19,32 @@ export const Header: NextPage<Props> = () => {
 	let [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [file, setFile] = useState<IFile | null>();
+	
 	const { list } = useSelector((state: RootState) => {
+		console.log("state.accounts");
+		console.log(state.accounts);
+		console.log("state.blockchain");
+		console.log(state.blockchain);
+		
+		
 		return state.accounts
 	})
+	console.log("list");
+	
+	console.log(list);
 
+	// const { address } = useSelector((state: RootState) => {
+	// 	console.log("INSIDE ADDRESS");
+	// 	console.log(state.blockchain);
+		
+	// 	return state.blockchain
+	// })
+
+	// console.log("address");
+	// console.log(address);
+	
+	
+	
 	const closeModal = () => setIsOpen(false);
 	const openModal = () => setIsOpen(true);
 
@@ -50,6 +72,17 @@ export const Header: NextPage<Props> = () => {
 
 	const onSubmit = async () => {
 		setIsLoading(true);
+		console.log("onSubmit called");
+		console.log("file");
+		console.log(file);
+		console.log("list");
+		console.log(list);
+
+		console.log("address before uploadFile");
+		// console.log(address);
+		
+		// const address = "test";
+
 		await uploadFile(file, list[0], onUploadSuccess, onUploadError)
 		setIsLoading(false);
 	}
@@ -57,11 +90,11 @@ export const Header: NextPage<Props> = () => {
 	return (
 		<div className="align-center">
 			<div className='flex flex-col align-center text-center mt-10'>
-				<Title level={3}> Welcome to Persssist </Title>
+				<Title level={3}> Higlobe Digital Signature Authentication </Title>
 				<Text type='secondary'>
-					Decentralized blockchain platform for uploading, downloading and sharing files without any restriction.
+					Decentralized blockchain platform for uploading, downloading and sharing files without any restriction. Built on Persssist.
 				</Text>
-				<div className='flex justify-center mt-5'>
+				<div className='flex justify-evenly mt-5'>
 					<Button 
 						type="primary" 
 						disabled={list.length === 0} 
@@ -69,6 +102,16 @@ export const Header: NextPage<Props> = () => {
 						onClick={openModal}>
 							Share files
 					</Button>
+					<a href="https://pdf-editor.vercel.app/">
+					<Button 
+						type="default" 
+						disabled={list.length === 0} 
+						icon={<EditOutlined />} 
+						>
+							Sign PDFs
+					</Button>
+					</a>
+					
 				</div>
 			</div>
 

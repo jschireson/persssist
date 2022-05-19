@@ -13,11 +13,15 @@ export const blockchain = createSlice({
 	initialState: {
 		filesMetadata: [] as PersssistFile[],
 		filesCount: 0,
+		// address: '',
 	},
 	reducers: {
 		setFilesMetadata: (state, action) => {
 			state.filesMetadata = action.payload;
 			state.filesCount = action.payload.length;
+			console.log("action.payload");
+			console.log(action.payload);
+			
 		}
 	},
 });
@@ -43,6 +47,7 @@ export const subscribeToEvents = (errorCallback: (e: any) => void) => (dispatch:
 export const uploadFile = async (
 	file: IFile | null | undefined, 
 	account: string, 
+	// address: any,
 	successCallback: (hash: string) => void, 
 	errorCallback: (e: any) => void
 ) => {

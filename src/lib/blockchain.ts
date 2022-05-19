@@ -17,6 +17,8 @@ export class AppBlockchain {
     constructor() {}
 
     private async ensureInitialized() {
+        // Logging inside AppBlockchain
+        console.log("Inside AppBlockchain: ensureInitialized()");
         if(!this.initialized) {
             await this.initialize();
         }
@@ -32,6 +34,18 @@ export class AppBlockchain {
         onError: (e: any) => void,
     ) {
         await this.ensureInitialized();
+        // Logging account info, uploaded Blockchain info
+        console.log("account");
+        console.log(account);
+        console.log("path");
+        console.log(path);
+        console.log("type");
+        console.log(type);
+        console.log("name");
+        console.log(name);
+        console.log("contract");
+        console.log(this.contract);
+        
         return this.contract.methods
             .uploadFile(path, size, type, name)
             .send({ from: account })
@@ -41,17 +55,24 @@ export class AppBlockchain {
 
     async getFilesMetadata(): Promise<PersssistFile[]> {
         const methods = this.contract.methods;
+        console.log("methods"); 
+        console.log(methods);
+        console.log("_address"); 
+        console.log(this.contract._address);
+        
         const filesCount = await methods.fileCount().call();
         const filesMetadata: PersssistFile[] = [];
         for (var i = filesCount; i >= 1; i--) {
             const file = await methods.files(i).call()
+            const sentToAddress = this.contract._address;
             filesMetadata.push({
                 fileId: file.id, 
                 fileName: file.fileName, 
                 filePath: file.filePath, 
                 fileSize: file.fileSize, 
                 fileType: file.fileType, 
-                uploader: file.uploader
+                uploader: file.uploader,
+                address: sentToAddress
             });
         }
         return filesMetadata;
@@ -85,7 +106,7 @@ export class AppBlockchain {
         if(typeof window === "undefined") return;
         this.initializeWeb3();
         if (this.web3) {
-            console.log('initializing contract')
+            console.log('initializing contract');            
             await this.initializeContract((err) => {
                 throw err;
             });

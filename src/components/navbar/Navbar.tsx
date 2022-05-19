@@ -51,9 +51,10 @@ export const NavBar: NextPage = () => {
 							</div>}
 							<div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
 								<div className="flex-shrink-0 flex items-center">
-									<Image src="/images/logo.svg" height={60} width={144} alt="Persssist" />
+									<Image src="/images/higlobe.png" height={60} width={144} alt="Persssist" />
 								</div>
 							</div>
+							
 							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 								<Space size={'middle'}>
 									{!connected && <ConnectionStateIcon connectionState={connectionState}></ConnectionStateIcon>}
@@ -68,7 +69,8 @@ export const NavBar: NextPage = () => {
 						<Button type="link"
 							onClick={connect} block>
 							Connect
-						</Button>}
+						</Button>
+						}
 				</>
 			)}
 		</Disclosure>

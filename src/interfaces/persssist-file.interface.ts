@@ -6,5 +6,5 @@ export interface PersssistFile {
     fileSize: string;
     fileType: string;
     uploader: string;
-    address: any;
+    // receiverAddress: any;
 }

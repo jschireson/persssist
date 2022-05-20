@@ -44,6 +44,12 @@ export const subscribeToEvents = (errorCallback: (e: any) => void) => (dispatch:
 		.catch(errorCallback);
 }
 
+/**
+ * Pretty sure this is the shema for uploadFile
+ * file is an IFile interface handling the actual
+ * file data 
+ * account is the sender account
+ */
 export const uploadFile = async (
 	file: IFile | null | undefined, 
 	account: string, 
@@ -59,6 +65,7 @@ export const uploadFile = async (
 		file.type,
 		file.name, 
 		account,
+		// address,
 		successCallback,
 		errorCallback
 	);

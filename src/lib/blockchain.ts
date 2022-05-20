@@ -30,9 +30,12 @@ export class AppBlockchain {
         type: string, 
         name: string, 
         account: string,
+        // receiverAddress: any,
         onSuccess: (hash: string) => void,
         onError: (e: any) => void,
     ) {
+        console.log("uploadFileMetadata called");
+        
         await this.ensureInitialized();
         // Logging account info, uploaded Blockchain info
         console.log("account");
@@ -57,14 +60,21 @@ export class AppBlockchain {
         const methods = this.contract.methods;
         console.log("methods"); 
         console.log(methods);
+        console.log("0-00-0--00-00--0--0-00-0--0-00--0"); 
+        console.log(this.contract);
         console.log("_address"); 
         console.log(this.contract._address);
         
         const filesCount = await methods.fileCount().call();
         const filesMetadata: PersssistFile[] = [];
+        console.log("-*-*-*-*-*-*-*-*-*-");
+        
         for (var i = filesCount; i >= 1; i--) {
             const file = await methods.files(i).call()
-            const sentToAddress = this.contract._address;
+            // const sentToAddress = this.contract._address;
+            const sentToAddress = "a nice address";
+            console.log("AAAAAAAAAAAAAAA");
+            
             filesMetadata.push({
                 fileId: file.id, 
                 fileName: file.fileName, 
@@ -72,8 +82,11 @@ export class AppBlockchain {
                 fileSize: file.fileSize, 
                 fileType: file.fileType, 
                 uploader: file.uploader,
-                address: sentToAddress
+                // receiverAddress: sentToAddress
             });
+            console.log("BBBBBB");
+            // console.log(sentToAddress);
+            
         }
         return filesMetadata;
     }
@@ -132,10 +145,27 @@ export class AppBlockchain {
     private async initializeContractLocal() {
         if(!this.web3) throw 'Web3 not initialized';
         const networkId = await this.web3.eth.net.getId();
+        console.log("networkId");
+        console.log(networkId);
+
+        /**
+         * =========================================|
+         * INVESTIGATE NETWORKDATA TO SEE THE SOURCE|
+         * CHECK PERSSSIST.JSON IN ABIS TO SEE THE  |
+         * NETWORKID AND WHAT DETERMINES THE        |
+         * ADDRESS OF THE RECEIVER                  |
+         * =========================================|
+         */
+        
         const networkData = (PersssistLocal as any).networks[networkId];
+
+        console.log("networkData");
+        console.log(networkData);
+
         if (networkData) {
             this.contract = new this.web3.eth.Contract(
                 (PersssistLocal as any).abi,
+                // "0xD6aE8250b8348C94847280928c79fb3b63cA453e"
                 networkData.address
             )
         }
